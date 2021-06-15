@@ -1,12 +1,17 @@
+# LINE Bot workshop sample
 
+- Reply Message
+    - Echo bot
+    - Icon Switch
+    - Quick Reply
+    - Reply event demo
+- Push Message
+    - Push to specific user demonstration
+- Rich Menu
+    - Create a menu
+    - Set default menu to all user
+    - Upload image to be a menu
 
+## License
 
-## Using rich menus
-
-
-Image format: JPEG or PNG
-Image width size (pixels): 800 to 2500
-Image height size (pixels): 250 or more
-Image aspect ratio (width/height): 1.45 or more
-Max file size: 1 MB
-
+MIT
