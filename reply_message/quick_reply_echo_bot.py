@@ -16,7 +16,9 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, TextSendMessage, QuickReply, QuickReplyButton, MessageAction,
+    DatetimePickerAction, URIAction, CameraAction, CameraRollAction, LocationAction,
+    PostbackAction,
 )
 
 app = Flask(__name__)
@@ -55,6 +57,24 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
+    QuickReply(
+        items=[
+            QuickReplyButton(action=MessageAction(label="Hello", text="World")),
+            QuickReplyButton(action=DatetimePickerAction(label="Time")),
+            QuickReplyButton(action=CameraAction(label="Camera")),
+            QuickReplyButton(action=CameraRollAction(label="Camera Roll")),
+            QuickReplyButton(action=LocationAction(label="Location✍️")),
+            QuickReplyButton(action=PostbackAction(
+                label="Postback",
+                data="You can not see me",
+                display_text="Hi"
+            )),
+            QuickReplyButton(
+                action=URIAction(
+                    label="Share",
+                    uri='https://engineering.linecorp.com/zh-hant/blog/')
+            )
+        ])
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text)
