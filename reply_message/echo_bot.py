@@ -1,4 +1,10 @@
 import os
+
+if os.getenv('DEVELOPMENT') is not None:
+    from dotenv import load_dotenv
+
+    load_dotenv(dotenv_path='../.env')
+
 import sys
 from argparse import ArgumentParser
 
