@@ -1,5 +1,7 @@
 import os
 
+from linebot.models import TextSendMessage
+
 if os.getenv('DEVELOPMENT') is not None:
     from dotenv import load_dotenv
 
@@ -16,7 +18,8 @@ if channel_access_token is None:
 
 line_bot_api = LineBotApi(channel_access_token)
 
-# Example: https://github.com/line/line-bot-sdk-python#set_default_rich_menuself-rich_menu_id-timeoutnone
-# Document: https://developers.line.biz/en/reference/messaging-api/#set-default-rich-menu
-rich_menu_id = 'YOUR_RICH_MENU_ID'
-line_bot_api.set_default_rich_menu(rich_menu_id)
+# Example: https://github.com/line/line-bot-sdk-python#push_messageself-to-messages-notification_disabledfalse-timeoutnone
+# Document: https://developers.line.biz/en/reference/messaging-api/#send-push-message
+
+to = ''  # Fill the USER_ID
+line_bot_api.push_message(to, TextSendMessage(text='Hello this is push message test!'))

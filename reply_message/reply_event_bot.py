@@ -18,16 +18,15 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, FlexSendMessage, TemplateSendMessage,
-    ImageCarouselTemplate, ImageCarouselColumn, PostbackAction, LocationSendMessage,
+    MessageEvent, TextMessage, TextSendMessage, FlexSendMessage, LocationSendMessage,
     VideoSendMessage, ImageSendMessage, StickerSendMessage,
 )
 
 app = Flask(__name__)
 
 # get channel_secret and channel_access_token from your environment variable
-channel_secret = 'YOUR_SECRET' or os.getenv('LINE_CHANNEL_SECRET')
-channel_access_token = 'YOUR_ACCESS_TOKEN' or os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
+channel_secret = os.getenv('LINE_CHANNEL_SECRET') or 'YOUR_SECRET'
+channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN') or 'YOUR_ACCESS_TOKEN'
 if channel_secret is None:
     print('Specify LINE_CHANNEL_SECRET as environment variable.')
     sys.exit(1)
@@ -73,7 +72,7 @@ def message_text(event):
                 "emojiId": "002"
             }
         ]
-        output = TextSendMessage(text='$ LINE emoji $', emojis=[emoji])
+        output = TextSendMessage(text='$ LINE emoji $', emojis=emoji)
     elif message == 'sticker':
         # https://github.com/line/line-bot-sdk-python#stickersendmessage
         output = StickerSendMessage(
@@ -89,9 +88,9 @@ def message_text(event):
     elif message == 'video':
         # https://github.com/line/line-bot-sdk-python#videosendmessage
         output = VideoSendMessage(
-            original_content_url='https://example.com/original.mp4',
+            original_content_url='https://i.imgur.com/TJJYqmH.mp4',
             preview_image_url='https://engineering.linecorp.com/wp-content/uploads/2021/04/%E6%88%AA%E5%9C%96-2021-04-23-%E4%B8%8B%E5%8D%883.00.15.png',
-            tracking_id='test video'
+            tracking_id='video1'
         )
     elif message == 'location':
         # https://github.com/line/line-bot-sdk-python#locationsendmessage
@@ -110,9 +109,9 @@ def message_text(event):
                 'direction': 'ltr',
                 'hero': {
                     'type': 'image',
-                    'url': 'https://example.com/cafe.jpg',
+                    'url': 'https://engineering.linecorp.com/wp-content/uploads/2021/04/%E6%88%AA%E5%9C%96-2021-04-23-%E4%B8%8B%E5%8D%883.00.15.png',
                     'size': 'full',
-                    'aspectRatio': '20:13',
+                    'aspectRatio': '100:100',
                     'aspectMode': 'cover',
                     'action': {'type': 'uri', 'uri': 'http://example.com', 'label': 'label'}
                 }
@@ -130,7 +129,7 @@ def message_text(event):
 def handle_follow(event):
     event_name = event.video_play_complete.tracking_id
     output = 'Video fail'
-    if event_name == 'video':
+    if event_name == 'video1':
         output = 'Complete'
     line_bot_api.reply_message(
         event.reply_token,
@@ -139,11 +138,5 @@ def handle_follow(event):
 
 
 if __name__ == "__main__":
-    arg_parser = ArgumentParser(
-        usage='Usage: python ' + __file__ + ' [--port <port>] [--help]'
-    )
-    arg_parser.add_argument('-p', '--port', default=8000, help='port')
-    arg_parser.add_argument('-d', '--debug', default=False, help='debug')
-    options = arg_parser.parse_args()
+    app.run(host='0.0.0.0', port=5000, debug=True)
 
-    app.run(host='0.0.0.0', debug=options.debug, port=options.port)

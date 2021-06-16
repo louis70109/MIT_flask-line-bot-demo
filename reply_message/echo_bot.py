@@ -6,7 +6,6 @@ if os.getenv('DEVELOPMENT') is not None:
     load_dotenv(dotenv_path='../.env')
 
 import sys
-from argparse import ArgumentParser
 
 from flask import Flask, request, abort
 from linebot import (
@@ -22,8 +21,9 @@ from linebot.models import (
 app = Flask(__name__)
 
 # get channel_secret and channel_access_token from your environment variable
-channel_secret = 'YOUR_SECRET' or os.getenv('LINE_CHANNEL_SECRET')
-channel_access_token = 'YOUR_ACCESS_TOKEN' or os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
+channel_secret = os.getenv('LINE_CHANNEL_SECRET') or 'YOUR_SECRET'
+channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN') or 'YOUR_ACCESS_TOKEN'
+
 if channel_secret is None:
     print('Specify LINE_CHANNEL_SECRET as environment variable.')
     sys.exit(1)
@@ -62,11 +62,4 @@ def message_text(event):
 
 
 if __name__ == "__main__":
-    arg_parser = ArgumentParser(
-        usage='Usage: python ' + __file__ + ' [--port <port>] [--help]'
-    )
-    arg_parser.add_argument('-p', '--port', default=8000, help='port')
-    arg_parser.add_argument('-d', '--debug', default=False, help='debug')
-    options = arg_parser.parse_args()
-
-    app.run(host='0.0.0.0', debug=options.debug, port=options.port)
+    app.run(host='0.0.0.0', port=5000, debug=True)

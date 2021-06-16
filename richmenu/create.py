@@ -10,7 +10,7 @@ if os.getenv('DEVELOPMENT') is not None:
 import sys
 from linebot import LineBotApi
 
-channel_access_token = 'YOUR_ACCESS_TOKEN' or os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
+channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN') or 'YOUR_ACCESS_TOKEN'
 
 if channel_access_token is None:
     print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
