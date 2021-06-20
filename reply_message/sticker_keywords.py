@@ -15,7 +15,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, TextSendMessage, StickerMessage,
 )
 
 app = Flask(__name__)
@@ -53,40 +53,20 @@ def callback():
     return 'OK'
 
 
-# Echo function
-# @handler.add(MessageEvent, message=TextMessage)
-# def message_text(event):
-#     line_bot_api.reply_message(
-#         event.reply_token,
-#         TextSendMessage(text=event.message.text)
-#     )
+@handler.add(MessageEvent, message=StickerMessage)
+def sticker_text(event):
+    print(event.message)
+    if 'brown' in event.message.keywords:
+        user = line_bot_api.get_profile(user_id=event.source.user_id)
+        output = TextSendMessage(text='Congrats '+user.display_name)
+    else:
+        output = TextSendMessage(text='Fails')
 
-# CSV Example
-# import csv
-# @handler.add(MessageEvent, message=TextMessage)
-# def message_text(event):
-#     rows_list = []
-#     with open(os.path.abspath("maskdata.csv"), newline='') as csvfile:
-#         rows = csv.reader(csvfile, delimiter=',')
-#         for row in rows:
-#             rows_list.append(row)
-#
-#     line_bot_api.reply_message(
-#         event.reply_token,
-#         TextSendMessage(text=str(rows_list[1]))
-#     )
-
-@handler.add(MessageEvent, message=TextMessage)
-def message_text(event):
-    print(event)
-    user = line_bot_api.get_profile(event.source.user_id)
-    print("!!!!!!!!!!!!!!!!!")
-    print(user)
-    print("!!!!!!!!!!!!!!!!!")
     line_bot_api.reply_message(
         event.reply_token,
-        TextMessage(text=f'Hello {user.display_name}, your image url is {user.picture_url}')
+        output
     )
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

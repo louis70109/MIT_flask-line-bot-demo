@@ -1,16 +1,9 @@
-import os
 
 from linebot.models import RichMenu, RichMenuSize, RichMenuArea, RichMenuBounds, URIAction
-
-if os.getenv('DEVELOPMENT') is not None:
-    from dotenv import load_dotenv
-
-    load_dotenv(dotenv_path='../.env')
-
 import sys
 from linebot import LineBotApi
 
-channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN') or 'YOUR_ACCESS_TOKEN'
+channel_access_token = 'YOUR_TOKEN'
 
 if channel_access_token is None:
     print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')

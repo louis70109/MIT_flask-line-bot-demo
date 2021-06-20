@@ -57,10 +57,13 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
-    QuickReply(
+    quick_reply = QuickReply(
         items=[
             QuickReplyButton(action=MessageAction(label="Hello", text="World")),
-            QuickReplyButton(action=DatetimePickerAction(label="Time")),
+            QuickReplyButton(action=DatetimePickerAction(
+                label="Time",
+                data="storeId=12345",
+                mode="datetime",)),
             QuickReplyButton(action=CameraAction(label="Camera")),
             QuickReplyButton(action=CameraRollAction(label="Camera Roll")),
             QuickReplyButton(action=LocationAction(label="Location✍️")),
@@ -77,7 +80,7 @@ def message_text(event):
         ])
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text)
+        TextSendMessage(text=event.message.text, quick_reply=quick_reply)
     )
 
 

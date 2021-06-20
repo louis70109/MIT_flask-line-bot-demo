@@ -8,7 +8,6 @@ if os.getenv('DEVELOPMENT') is not None:
     load_dotenv(dotenv_path='../.env')
 
 import sys
-from argparse import ArgumentParser
 
 from flask import Flask, request, abort
 from linebot import (
@@ -77,7 +76,7 @@ def message_text(event):
         # https://github.com/line/line-bot-sdk-python#stickersendmessage
         output = StickerSendMessage(
             package_id='1',
-            sticker_id='1'
+            sticker_id='2'
         )
     elif message == 'image':
         # https://github.com/line/line-bot-sdk-python#imagesendmessage
@@ -95,10 +94,10 @@ def message_text(event):
     elif message == 'location':
         # https://github.com/line/line-bot-sdk-python#locationsendmessage
         output = LocationSendMessage(
-            title='my location',
-            address='Tokyo',
-            latitude=35.65910807942215,
-            longitude=139.70372892916203
+            title='Mask Map',
+            address='花蓮',
+            latitude=23.601916,
+            longitude=121.5189989
         )
     elif message == 'flex':
         # https://github.com/line/line-bot-sdk-python#flexsendmessage
