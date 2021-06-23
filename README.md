@@ -1,4 +1,4 @@
-# LINE Bot workshop sample
+# LINE Bot workshop exsample
 
 - Reply Message
     - Echo bot
